@@ -10,5 +10,12 @@ produitModule.factory('produitService', ['$http', '$rootScope', function ($http,
                 delete $rootScope.token;
             });
     };
+    factory.commander = function(produit)
+    {
+        return $http.post(
+            'http://localhost:8080/rest/Commande',
+            {token: $rootScope.token, reference: produit.reference, quantityOrdered: produit.quantityOrdered}
+        )
+    };
     return factory;
 }]);
