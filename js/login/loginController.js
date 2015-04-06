@@ -8,7 +8,7 @@ loginModule.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$rout
 
         $http({
             method: 'POST',
-            url: 'http://localhost:8080/rest/login',
+            url: host+'/rest/login',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             transformRequest: function(obj) {
                 var str = [];
@@ -18,8 +18,14 @@ loginModule.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$rout
             },
             data: {user: $scope.user, password: $scope.password}
         }).success(function (data) {
-            $rootScope.token = data
-            $location.path('/')
+            toastr.success("Connexion Réussie !");
+            $rootScope.token = data;
+            $location.path('/');
+        }).error(function(data, status){
+
+            if(status === 403)
+                toastr.error("Mauvais identifiants, veuillez réessayer");
+            else toastr.error("Impossible de se connecter.");
         });
     }
 
