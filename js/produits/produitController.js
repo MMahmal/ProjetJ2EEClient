@@ -24,6 +24,7 @@ produitModule.controller('ProduitCtrl', ['$scope', '$rootScope', '$location', '$
             var commandePromise = produitService.commander(produit);
 
             commandePromise.success(function(data, status){
+                toastr.success("Commande réussie !", "Produit N°"+produit.reference+" commandé en "+produit.quantityOrdered+" exemplaires");
             });
 
         }

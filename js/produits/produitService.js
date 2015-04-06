@@ -12,10 +12,11 @@ produitModule.factory('produitService', ['$http', '$rootScope', function ($http,
     };
     factory.commander = function(produit)
     {
-        return $http.post(
-            'http://localhost:8080/rest/Commande',
-            {token: $rootScope.token, reference: produit.reference, quantityOrdered: produit.quantityOrdered}
-        )
+        return $http({
+            method: 'POST',
+            url: 'http://localhost:8080/rest/Commande',
+            data: {token: $rootScope.token, reference: produit.reference, quantityOrdered: produit.quantityOrdered}
+        })
     };
     return factory;
 }]);
