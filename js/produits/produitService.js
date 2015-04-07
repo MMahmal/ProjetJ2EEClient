@@ -14,9 +14,16 @@ produitModule.factory('produitService', ['$http', '$rootScope', function ($http,
     {
         return $http({
             method: 'POST',
-            url: 'http://localhost:8080/rest/Commande',
+            url: host+'/rest/Commande',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
             data: {token: $rootScope.token, reference: produit.reference, quantityOrdered: produit.quantityOrdered}
-        })
+        });
     };
     return factory;
 }]);
