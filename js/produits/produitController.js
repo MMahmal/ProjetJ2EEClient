@@ -20,6 +20,7 @@ produitModule.controller('ProduitCtrl', ['$scope', '$rootScope', '$location', '$
 
     $scope.commander= function() {
 
+
         for (var produitIndex in $scope.products) {
             var produit = $scope.products[produitIndex];
 
@@ -27,18 +28,19 @@ produitModule.controller('ProduitCtrl', ['$scope', '$rootScope', '$location', '$
                 var commandePromise = produitService.commander(produit);
 
                 commandePromise.success(function (data, status) {
-                    toastr.success("Commande réussie !", "Produit N°" + produit.reference + " commandé");
+                    toastr.success("Produit commandé !");
                     displayProducts();
                 }).
                     error(function (data, status) {
-                        if (status === 403) {
+                        if (status == 403) {
                             delete $rootScope.token;
-                            $location.path("/login")
-                        }else if(status === 416)
+                            $location.path("/login");
+                            toastr.error("Veuillez vous reconnecter", "Token invalide");
+                        }else if(status == 416)
                             toastr.error("Erreur lors de la commande", "Quantité commandée invalide");
-                        else if(status === 406)
+                        else if(status == 406)
                             toastr.error("Erreur lors de la commande", "Argument manquant");
-                        else if(status === 404)
+                        else if(status == 404)
                             toastr.error("Erreur lors de la commande", "Référence invalide");
                     });
             }
